@@ -1,7 +1,7 @@
 import questionType from "./questionType.type";
 
 export default interface question {
-    __id: string
+    _id: string
     title: string,
     description: string,
     typeId: questionType,

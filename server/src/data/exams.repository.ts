@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import exam from '../models/interfaces/exam.interface';
 import examSchema from '../models/schemas/exam.schema';
 

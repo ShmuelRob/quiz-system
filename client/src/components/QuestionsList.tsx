@@ -1,24 +1,23 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import question from "../models/question";
-import AddExamComp from "./AddExamComp";
+import getData from "../utils/getData";
 
 interface questionsListProps {
-  questions: question[];
-  questionsSelectedIds: string[];
   setQuestionsSelectedIds: React.Dispatch<React.SetStateAction<string[]>>;
   goNext: () => void;
 }
 
 function QuestionsList(props: questionsListProps) {
-  //   const [questions, setQuestions] = useState<question[]>([]);
-  //   const [questionsSelected, setQuestionsSelected] = useState<string[]>([]);// id's
-  //   const axiosBase = axios.create({baseURL: `${import.meta.env.VITE_SERVER_URL}/questions`});
-  //   useEffect(() => {
-  // axiosBase.get('/').then((data) => {
-  //   setQuestions(data.data);
-  // });
-  //   }, []);
+  const [questions, setQuestions] = useState<question[]>([]);
+  useEffect(() => {
+    getData("questions")
+      .then((data) => {
+        setQuestions(data as question[]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   const handleQuestions = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -26,29 +25,25 @@ function QuestionsList(props: questionsListProps) {
   ) => {
     if (e.target.checked) {
       props.setQuestionsSelectedIds((curr) => {
-        console.log(curr, props.questions);
-        curr.push(props.questions[index].__id);
+        curr.push(questions[index]._id);
         return curr;
       });
     } else {
       props.setQuestionsSelectedIds((curr) => {
-        console.log(curr);
         return curr.filter((_, i) => i !== index);
       });
     }
-    console.log(props.questionsSelectedIds);
-  }
+  };
 
   return (
     <>
-      {!props.questions ? (
+      {!questions ? (
         <p>loading</p>
       ) : (
         <div>
-          {props.questions.map((q, i) => (
+          {questions.map((q, i) => (
             <div key={i}>
               {q.title}, {q.description},
-              {/* {q.exams.length === 0 ? <button>delete</button> : q.exams.map((q) => `${q}`)} */}
               <input type="checkbox" onChange={(e) => handleQuestions(e, i)} />
             </div>
           ))}

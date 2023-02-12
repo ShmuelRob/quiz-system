@@ -7,7 +7,8 @@
     "start": "npm run build && node dist/index.js",
     "build": "tsc",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "test": "vitest --watch"
+    "test": "vitest --watch",
+    "stam": "nodemon stam.ts"
   },
   "keywords": [],
   "author": "",

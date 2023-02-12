@@ -1,36 +1,48 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import AddExamDetails from "../components/AddExamDetails";
 import QuestionsList from "../components/QuestionsList";
-import question from "../models/question";
-import getData from "../utils/getData";
 
 function AddExam() {
-  const [questions, setQuestions] = useState<question[]>([]);
-  const [title, setTitle] = useState<string>('');
-  
-  useEffect(() => {
-    getData("questions")
-      .then((data) => {
-        setQuestions(data as question[]);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+  const [title, setTitle] = useState<string>("");
+  const [language, setLanguage] = useState<string>(); // id
   const [selectedQuestions, setSelectedQuestions] = useState<string[]>([]); // id's
+  const [examType, setExamType] = useState<string>(); // id
+  const [massageOnFail, setMassageOnFail] = useState<string>();
+  const [massageOnSuccess, setMassageOnSuccess] = useState<string>();
+  const [passingGrade, setPassingGrade] = useState<number>();
+  const [showResult, setShowResult] = useState<boolean>();
+
   const [level, setLevel] = useState(0);
   const addDetails = (
-    <AddExamDetails goNext={() => setLevel((curr) => curr + 1)} />
+    <AddExamDetails
+      selectExamType={setExamType}
+      goNext={() => setLevel((curr) => curr + 1)}
+      selectLanguage={setLanguage}
+      setTitle={setTitle}
+    />
   );
   const questionsList = (
     <QuestionsList
-      questions={questions}
-      questionsSelectedIds={selectedQuestions}
       setQuestionsSelectedIds={setSelectedQuestions}
       goNext={() => setLevel((curr) => curr + 1)}
     />
   );
   const levels = [addDetails, questionsList];
+
+  const createExam = () => {
+    return {
+      questions: selectedQuestions,
+      language,
+      examType,
+      header: title,
+      massageOnFail,
+      massageOnSuccess,
+      passingGrade,
+      date: new Date(),
+      isShowResult: showResult,
+    };
+  };
+
   return (
     <div>
       {level < levels.length

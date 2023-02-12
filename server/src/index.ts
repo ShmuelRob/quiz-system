@@ -7,6 +7,7 @@ import loginRouter from './routes/login';
 import questionsRouter from './routes/questions';
 import examsRouter from './routes/exams';
 import studentExamsRouter from './routes/studentExams';
+import utilsRouter from './routes/utils';
 
 dotenv.config();
 
@@ -21,10 +22,11 @@ server.use('/login', loginRouter);
 server.use('/questions', questionsRouter);
 server.use('/exams', examsRouter);
 server.use('/studentExams', studentExamsRouter);
+server.use('/utils', utilsRouter);
 
 
 server.get('*', (req, res) => {
-    res.sendStatus(404).send('Not Found');
+    res.sendStatus(404);//.send('Not Found');
 })
 
 
