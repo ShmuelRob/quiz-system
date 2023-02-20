@@ -22,7 +22,7 @@ async function getExamController(req: Request, res: Response) {
 }
 
 async function getExamByIdController(req: Request, res: Response) {
-    const { id } = req.body;
+    const { id } = req.params;
     const examOutput = await getExamByIdService(id).catch(err => {
         return res.status(400).send("couldn't add get exam, " + err);
     });
@@ -32,7 +32,7 @@ async function getExamByIdController(req: Request, res: Response) {
 async function addExamController(req: Request, res: Response) {
     const { exam } = req.body;
     const examAdded = addExamService(exam).catch(err => {
-        return res.status(400).send("couldn't add this Exam, " + err);
+        res.status(400).send("couldn't add this Exam, " + err);
     });
     if (await examAdded) {
         return res.sendStatus(201);
@@ -50,9 +50,9 @@ async function editExamController(req: Request, res: Response) {
 }
 
 async function deleteExamController(req: Request, res: Response) {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
-        const x = await deleteExamService(id);
+        await deleteExamService(id);
         return res.sendStatus(200);
     } catch (err) {
         return res.status(400).send("couldn't add this Exam, " + err);

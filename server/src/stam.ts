@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import examTypeSchema from './src/models/schemas/examType.schema';
+import examTypeSchema from './models/schemas/examType.schema';
 
 
 // dotenv.config()

@@ -43,7 +43,7 @@ function QuestionsList(props: questionsListProps) {
         <div>
           {questions.map((q, i) => (
             <div key={i}>
-              {q.title}, {q.description},
+              {q.title}, {q.description}
               <input type="checkbox" onChange={(e) => handleQuestions(e, i)} />
             </div>
           ))}

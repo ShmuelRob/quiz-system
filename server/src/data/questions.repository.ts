@@ -18,6 +18,30 @@ function getAllQuestions(): Promise<question[]> {
     });
 }
 
+function getQuestionById(id: mongoose.Types.ObjectId): Promise<question> {
+    return new Promise(async (resolve, reject) => {
+        const question = await questionSchema.findById(id).exec().catch(err => {
+            reject('this id not exist');
+        });
+        if (question) {
+            resolve(question);
+        }
+    });
+}
+
+function addExamToQuestion(questionId: mongoose.Types.ObjectId, examId: mongoose.Types.ObjectId): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+        const question = await questionSchema.findById(questionId).exec().catch(err => {
+            reject(err);
+        });
+        question?.exams.push(examId);
+        questionSchema.findByIdAndUpdate(questionId, { exams: question?.exams }).exec().catch(err => {
+            reject(err);
+        });
+        resolve()
+    });
+}
+
 function addQuestion(question: question): Promise<question> {
     return new Promise(async resolve => {
         const created = await questionSchema.create(question);
@@ -26,15 +50,31 @@ function addQuestion(question: question): Promise<question> {
 }
 
 function editQuestion(id: mongoose.Types.ObjectId, question: question): Promise<void> {
-    return new Promise((resolve, reject) => {
-        questionSchema.findByIdAndUpdate(id, question).catch(err => {
+    return new Promise(async (resolve, reject) => {
+        const oldQues = await questionSchema.findOne({ _id: id }).exec().catch(err => {
             reject(err)
         });
-        resolve()
+        questionSchema.findOneAndUpdate(
+            { _id: id },
+            {
+                title: question.title || oldQues!.title,
+                description: question.description || oldQues!.description,
+                answers: question.answers || oldQues!.answers,
+                correctAnswer: question.correctAnswer || oldQues!.correctAnswer,
+                exams: [...question.exams] || [...oldQues!.exams],
+                fieldId: question.fieldId || oldQues!.fieldId,
+                typeId: question.typeId || oldQues!.typeId
+            }
+        ).exec().then(data => {
+
+            resolve()
+        }).catch(err => {
+            reject(err);
+        });
     });
 }
 
-function getId(question:question): Promise<string> {
+function getId(question: question): Promise<string> {
     return new Promise(async (resolve, reject) => {
         const questionInDb = await questionSchema.findOne(question).catch(err => {
             reject(err)
@@ -43,34 +83,16 @@ function getId(question:question): Promise<string> {
     });
 }
 
-// function answerQuestion(question: question, answer: string): Promise<void> {
-//     return new Promise(async (resolve, reject) => {
-//         const ques = await questionSchema.findOne(question).exec().catch(err => {
-//             reject(err);
-//         });
-//         if (ques) {
-//             console.log('entered')
-//             const index = ques.answers.findIndex(a => a === answer);
-//             if (index === -1) {
-//                 reject('answer is not exist')
-//             }
-//             ques.answersSelected[index] += 1;
-//             ques.save();
-//             resolve();
-//         }
-//     });
-// }
-
-// function isQuestionAnswered(question: question): Promise<boolean> {
-//     return new Promise(async (resolve, reject) => {
-//         const ques = await questionSchema.findOne(question).exec().catch(err => {
-//             reject(err)
-//         });
-//         if (ques && ques.answersSelected.some(a => a > 0)) {
-            
-//         }
-//     });
-// }
+function deleteQuestion(id: mongoose.Types.ObjectId): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+        const deleted = await questionSchema.findByIdAndDelete(id).exec().catch(err => {
+            reject(err)
+        });
+        if(deleted) {
+            resolve()
+        }
+    });
+}
 
 
-export { addQuestion, editQuestion, /*answerQuestion, isQuestionAnswered,*/ getAllQuestions, getId}
+export { addQuestion, getQuestionById, editQuestion, addExamToQuestion, deleteQuestion, getAllQuestions, getId }

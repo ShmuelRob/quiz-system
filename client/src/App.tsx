@@ -6,6 +6,19 @@ import Header from "./layouts/Header";
 import QuestionsPage from "./pages/QuestionsPage";
 import ExamsPage from "./pages/ExamsPage";
 import AddExam from "./pages/AddExam";
+import EditQuestion from "./components/EditQuestion";
+import EditQuestions from "./components/EditQuestions";
+import EditDetails from "./components/EditDetails";
+import StudentExam from "./pages/StudentExam";
+
+
+
+  //TODO! that 
+            /**
+             * then student exam, then check the word
+             */
+
+
 
 function App() {
   const [auth, setAuth] = useState<boolean>(true); //TODO! replace to false when finish!!
@@ -39,8 +52,12 @@ function App() {
             )
           }
         />
+        <Route path={`/questions/edit/:id`} element={<EditQuestion />} />
         <Route path="/exams" element={<ExamsPage />} />
         <Route path="/exams/add" element={<AddExam />} />
+        <Route path="/exams/editDetails/:id" element={<EditDetails />} />
+        <Route path="/exams/editQuestions/:id" element={<EditQuestions />} />
+        <Route path="/student/:examId" element={<StudentExam />} />
       </Routes>
     </div>
   );

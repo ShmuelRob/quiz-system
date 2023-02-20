@@ -4,14 +4,14 @@ const axiosBase = axios.create({
     baseURL: `${import.meta.env.VITE_SERVER_URL}`,
 });
 
-export default async function getData(action: string) {
+
+export default async function postData(params: string, data: unknown) {
     return new Promise(async (resolve, reject) => {
-        const data = await axiosBase.get(`/${action}`).catch(err => {
+        const output = await axiosBase.post(`/${params}`, data).catch(err => {
             reject('error: ' + err);
         })
-        if (data) {
-            resolve(data.data);
+        if (output) {
+            resolve(output.data);
         }
     });
 }
-

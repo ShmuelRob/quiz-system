@@ -5,15 +5,14 @@ import examType from "../models/examType";
 
 interface addExamDetailsProps {
   setTitle: (title: string) => void;
+  setMassageOnFail: (massage: string) => void;
+  setMassageOnSuccess: (massage: string) => void;
+  setPassingGrade: (grade: number) => void;
+  setShowResult: (show: boolean) => void;
   selectExamType: (selectedType: string) => void;
   selectLanguage: (id: string) => void;
   goNext: () => void;
 }
-
-// const [massageOnFail, setMassageOnFail] = useState<string>();
-//   const [massageOnSuccess, setMassageOnSuccess] = useState<string>();
-//   const [passingGrade, setPassingGrade] = useState<number>();
-//   const [showResult, setShowResult] = useState<boolean>();
 
 function AddExamDetails(props: addExamDetailsProps) {
   const [languagesOptions, setLanguagesOptions] = useState<language[]>();
@@ -39,10 +38,23 @@ function AddExamDetails(props: addExamDetailsProps) {
 
   return (
     <div>
-      header:{" "}
+      header:
       <input type="text" onChange={(e) => props.setTitle(e.target.value)} />
       <br />
-      order:{" "}
+      Show Result?:
+      <input type="radio" name="showResult" onChange={() => props.setShowResult(true)} /> Yes
+      <input type="radio" name="showResult" onChange={() => props.setShowResult(false)} /> No
+      <br />
+      Massage on fail:
+      <input type="text" onChange={(e) => props.setMassageOnFail(e.target.value)} />
+      <br />
+      Massage on success:
+      <input type="text" onChange={(e) => props.setMassageOnSuccess(e.target.value)} />
+      <br />
+      Passing grade:
+      <input type="number" onChange={(e) => props.setPassingGrade(Number.parseInt(e.target.value))} />
+      <br />
+      order:
       <select onChange={(e) => props.selectExamType(e.target.value)}>
         {examTypes?.map((et, i) => {
           return (
@@ -53,7 +65,7 @@ function AddExamDetails(props: addExamDetailsProps) {
         })}
       </select>
       <br />
-      language:{" "}
+      language:
       <select onChange={(e) => props.selectLanguage(e.target.value)}>
         {languagesOptions?.map((l, i) => {
           return (

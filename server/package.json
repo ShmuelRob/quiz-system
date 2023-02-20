@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev": "nodemon --exec ts-node src/index.ts",
     "test": "vitest --watch",
-    "stam": "nodemon stam.ts"
+    "stam": "nodemon src/stam.ts"
   },
   "keywords": [],
   "author": "",
