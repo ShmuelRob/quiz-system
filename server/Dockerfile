@@ -5,24 +5,10 @@ WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY package*.json ./
+COPY tsconfig.json ./
 
 RUN npm i
 
 COPY . .
-
-RUN npm run build
-
-FROM node:slim
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package*.json ./
-
-RUN npm ci --production
-
-COPY --from=builder /usr/src/app/dist ./dist
-
 EXPOSE 3000
-CMD [ "node", "dist/index.js" ]
+CMD [ "npm", "run", "dev" ]
