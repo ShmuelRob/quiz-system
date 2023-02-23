@@ -13,12 +13,6 @@ import StudentExam from "./pages/StudentExam";
 
 
 
-  //TODO! that 
-            /**
-             * then student exam, then check the word
-             */
-
-
 
 function App() {
   const [auth, setAuth] = useState<boolean>(true); //TODO! replace to false when finish!!

@@ -11,6 +11,9 @@ function StudentExam() {
     const {examId} = useParams();
     const [exam, setExam] = useState<exam>();
     let answers: string[][] = [];
+    const setAnswers = (ans: string[][]) => {
+      console.log(ans)
+    }
     const [student, setStudent] = useState<student>();
     const [level, setLevel] = useState<number>(0);
 
@@ -20,7 +23,7 @@ function StudentExam() {
     }
 
     const signIn = <StudentSignIn setStudent={addStudent} />
-    const showExam = <ShowStudentExam exam={exam!} answers={answers} />
+    const showExam = <ShowStudentExam exam={exam!} answers={answers} setAnswers={setAnswers} />
     const endExam = <EndExam />;
     const levels = [signIn, showExam, endExam]
 

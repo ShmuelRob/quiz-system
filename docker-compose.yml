@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    # env_file:
-      # - .env
+    env_file:
+      - ./server/.env
   client:
     hostname: client
     build:
@@ -15,3 +15,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5173:5173"
+    env_file:
+      - ./client/.env
