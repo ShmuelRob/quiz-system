@@ -18,7 +18,7 @@ async function getStudentExamController(req: Request, res: Response) {
 }
 
 async function getStudentExamByIdController(req: Request, res: Response) {
-    const { id } = req.body;
+    const { id } = req.params;
     const examOutput = await getStudentExamByIdService(id).catch(err => {
         return res.status(400).send("couldn't add get exam, " + err);
     });
@@ -27,16 +27,17 @@ async function getStudentExamByIdController(req: Request, res: Response) {
 
 async function addStudentExamController(req: Request, res: Response) {
     const { exam } = req.body;
-    const examAdded = addStudentExamService(exam).catch(err => {
+    const examAdded = await addStudentExamService(exam).catch(err => {
         return res.status(400).send("couldn't add this Exam, " + err);
     });
-    if (await examAdded) {
-        return res.sendStatus(201);
+    if (examAdded) {
+        return res.send(examAdded);
     }
 }
 
 async function editStudentExamController(req: Request, res: Response) {
-    const { id, exam } = req.body;
+    const { id } = req.params;
+    const { exam } = req.body;
     const edit = editStudentExamService(id, exam).catch(err => {
         return res.status(400).send("couldn't add edit Exam, " + err);
     });
@@ -46,9 +47,9 @@ async function editStudentExamController(req: Request, res: Response) {
 }
 
 async function deleteStudentExamController(req: Request, res: Response) {
-    const { id } = req.body;
+    const { id } = req.params;
     try {
-        const x = await deleteStudentExamService(id);
+        await deleteStudentExamService(id);
         return res.sendStatus(200);
     } catch (err) {
         return res.status(400).send("couldn't add this Exam, " + err);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import getData from "../utils/getData";
-import language from "../models/language";
-import examType from "../models/examType";
+import getData from "../../utils/getData";
+import language from "../../models/language";
+import examType from "../../models/examType";
 
 interface addExamDetailsProps {
   setTitle: (title: string) => void;
@@ -19,7 +19,7 @@ function AddExamDetails(props: addExamDetailsProps) {
   const [examTypes, setExamTypes] = useState<examType[]>([]);
 
   useEffect(() => {
-    getData("utils/examtypes")
+    getData("utils/exam-types")
       .then((data) => {
         setExamTypes(data as examType[]);
       })

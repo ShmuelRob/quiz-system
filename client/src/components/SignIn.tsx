@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import axios from "axios";
+import postData from "../utils/postData";
 
 
 interface signInProps {
@@ -13,11 +13,13 @@ function SignIn(props: signInProps) {
   const [password, setPassword] = useState<string>('');
 
   const signIn = () => {
-    axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, {username, password})
+    postData('login', {username, password})
     .then(data => {
+      const returnedData = data as {login: boolean, username: string}
       console.log(data)
-      props.login(data.data.login);
-      props.setUsername(data.data.username)
+      console.log(returnedData)
+      props.login(returnedData.login);
+      props.setUsername(returnedData.username)
     }).catch(err=> {
         console.error(err)
     });

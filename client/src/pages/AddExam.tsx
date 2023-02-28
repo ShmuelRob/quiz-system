@@ -1,7 +1,7 @@
 import { useState } from "react";
-import AddExamDetails from "../components/AddExamDetails";
-import QuestionsList from "../components/QuestionsList";
-import SendExam from "../components/SendExam";
+import AddExamDetails from "../components/addExam/AddExamDetails";
+import QuestionsList from "../components/addExam/QuestionsList";
+import SendExam from "../components/addExam/SendExam";
 import postData from "../utils/postData";
 import exam from '../models/exam';
 
@@ -14,6 +14,7 @@ function AddExam() {
   const [massageOnSuccess, setMassageOnSuccess] = useState<string>('');
   const [passingGrade, setPassingGrade] = useState<number>(0);
   const [showResult, setShowResult] = useState<boolean>(false);
+  const [examId, setExamId] = useState<string>('');
 
   const [level, setLevel] = useState(0);
   const addDetails = (
@@ -44,12 +45,14 @@ function AddExam() {
     };
   };
 
-  const postExam = () => {
-    postData('exams', {exam: createExam()});
+  const postExam = async () => {
+    return postData('exams', {exam: createExam()});
   }
   const finalNext = () =>{
-    postExam();
-    setLevel((curr) => curr + 1);
+    postExam().then(data =>{
+      setExamId(data as string);
+      setLevel((curr) => curr + 1);
+    });
   }
 
   const questionsList = (
@@ -66,7 +69,7 @@ function AddExam() {
   // exam={createExam()}
   // />
   // const levels = [addDetails, questionsList, sendExam];
-  const levels = [addDetails, questionsList, <SendExam/>];
+  const levels = [addDetails, questionsList, <SendExam id={examId}/>];
 
 
 

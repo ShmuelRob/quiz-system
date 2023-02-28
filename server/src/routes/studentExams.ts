@@ -1,41 +1,31 @@
 import express from 'express';
 import {
-    getAllStudentExamsController, getStudentExamController,
-    getStudentExamByIdController, addStudentExamController,
+    getAllStudentExamsController, getStudentExamByIdController, addStudentExamController,
     editStudentExamController, deleteStudentExamController
 }
     from '../controllers/studentExams';
 
+
 const studentExamsRouter = express.Router();
 
 studentExamsRouter.get('/', (req, res) => {
-    return getAllStudentExamsController(req, res)
+    return getAllStudentExamsController(req, res);
 });
 
-studentExamsRouter.get('/one', (req, res) => {
-    return getStudentExamController(req, res)
+studentExamsRouter.get('/:id', (req, res) => {
+    return getStudentExamByIdController(req, res);
 });
 
-studentExamsRouter.get('/id', (req, res) => {
-    return getStudentExamByIdController(req, res)
-});
-
-studentExamsRouter.get('/', (req, res) => {
-    return getAllStudentExamsController(req, res)
-});
-
-studentExamsRouter.post('/add', (req, res) => {
+studentExamsRouter.post('/', (req, res) => {
     return addStudentExamController(req, res);
 });
 
-studentExamsRouter.put('/edit', (req, res) => {
+studentExamsRouter.put('/:id', (req, res) => {
     return editStudentExamController(req, res);
 });
 
-studentExamsRouter.delete('/delete', (req, res) => {
+studentExamsRouter.delete('/:id', (req, res) => {
     return deleteStudentExamController(req, res);
 });
-
-
 
 export default studentExamsRouter

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import question from "../models/question";
-import getData from "../utils/getData";
+import question from "../../models/question";
+import getData from "../../utils/getData";
 
 interface questionsListProps {
   setQuestionsSelectedIds: React.Dispatch<React.SetStateAction<string[]>>;

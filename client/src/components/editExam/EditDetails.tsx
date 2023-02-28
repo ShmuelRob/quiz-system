@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import exam from '../models/exam';
-import getData from '../utils/getData';
-import getDataWithParams from '../utils/getDataWithParams';
-import examType from '../models/examType';
-import language from '../models/language';
+import exam from '../../models/exam';
+import getData from '../../utils/getData';
+import getDataWithParams from '../../utils/getDataWithParams';
+import examType from '../../models/examType';
+import language from '../../models/language';
 import axios from 'axios';
 
 function EditDetails() {

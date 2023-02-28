@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import postData from "../utils/postData";
+import postData from "../../utils/postData";
 
 function AddQuestion() {
   const [isSingleChoice, setIsSingleChoice] = useState<boolean>(false);

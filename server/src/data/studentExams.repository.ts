@@ -13,14 +13,24 @@ mongoose.connect(process.env.MONGO_URL || '', err => {
 
 
 function getAllStudentExams(): Promise<studentExam[]> {
-    return new Promise(async resolve => {
-        resolve(await studentExamSchema.find({}).exec());
+    return new Promise(async (resolve, reject) => {
+        const studentExams = await studentExamSchema.find({}).exec().catch(err => {
+            reject(err)
+        });
+        if (studentExams) {
+            resolve(studentExams);
+        }
     });
 }
 
-function getStudentExam(studentExam: studentExam): Promise<studentExam[]> {
-    return new Promise(async resolve => {
-        resolve(await studentExamSchema.find(studentExam).exec());
+function getStudentExam(studentExam: studentExam): Promise<studentExam> {
+    return new Promise(async (resolve, reject) => {
+        const exam = await studentExamSchema.findOne(studentExam).exec().catch(err => {
+            reject(err);
+        })
+        if (exam) {
+            resolve(exam);
+        }
     });
 }
 
@@ -35,10 +45,10 @@ function getStudentExamById(id: mongoose.Types.ObjectId): Promise<studentExam> {
     });
 }
 
-function addStudentExam(studentExam: studentExam): Promise<studentExam> {
+function addStudentExam(studentExam: studentExam): Promise<mongoose.Types.ObjectId> {
     return new Promise(async resolve => {
         const created = await studentExamSchema.create(studentExam);
-        resolve(created.toObject<studentExam>());
+        resolve(created._id);
     });
 }
 

@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import { ChangeEvent, useEffect, useState } from "react";
-import question from "../models/question";
-import getData from "../utils/getData";
+import question from "../../models/question";
+import getData from "../../utils/getData";
 import axios from "axios";
 
 function EditQuestion() {
@@ -22,14 +22,13 @@ function EditQuestion() {
   const [returnedData, setReturnedData] = useState<string>("");
 
   useEffect(() => {
-    getData(`questions/id/${id}`)
+    getData(`questions/${id}`)
       .then((q) => {
         const ques = q as question
         setQuestion(ques);
         setTitle(ques.title);
         setDescription(ques.description);
         setAnswers(ques.answers)
-        // console.log(ques.correctAnswer)
         if (ques.correctAnswer.length === 1) {
             setCorrectAnswer(ques.answers.findIndex(q => q === ques.correctAnswer[0]));
             setIsSingleChoice(true);
@@ -39,9 +38,6 @@ function EditQuestion() {
             setCorrectAnswers(indexes);
             setIsSingleChoice(false);
         }
-        // console.log(correctAnswer)
-        // console.log(correctAnswers)
-        // console.log(createQuestion())
       })
       .catch((err) => {
         return <div>error: {err}</div>;

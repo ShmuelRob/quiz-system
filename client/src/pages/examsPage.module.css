@@ -1,0 +1,27 @@
+/* * { */
+    /* background-color: blue; */
+/* } */
+
+
+/* b { */
+    /* color: goldenrod */
+/* } */
+
+/* code { */
+/* } */
+
+/* code::after { */
+    /* display: none; */
+    /* display: inline-block; */
+    /* content: url("../../public/clippy.svg"); */
+    /* top: 0.3%; */
+    /* left: 0.5%; */
+    /* background-image: url("../../public/clippy.svg"); */
+    /* height: 10px; */
+    /* width: 10px; */
+    /* image-rendering: url("../../public/clippy.svg"); */
+    /* image: url("../../public/clippy.svg"); */
+    /* background: url("../../public/clippy.svg"); */
+    /* color: red; */
+    /* position: relative; */
+/* } */

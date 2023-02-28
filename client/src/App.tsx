@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import AddQuestion from "./components/AddQuestion";
+import AddQuestion from "./components/addQuestion/AddQuestion";
 import SignIn from "./components/SignIn";
 import { useState } from "react";
 import Header from "./layouts/Header";
 import QuestionsPage from "./pages/QuestionsPage";
 import ExamsPage from "./pages/ExamsPage";
 import AddExam from "./pages/AddExam";
-import EditQuestion from "./components/EditQuestion";
-import EditQuestions from "./components/EditQuestions";
-import EditDetails from "./components/EditDetails";
+import EditQuestion from "./components/editQuestion/EditQuestion";
+import EditQuestions from "./components/editExam/EditQuestions";
+import EditDetails from "./components/editExam/EditDetails";
 import StudentExam from "./pages/StudentExam";
 
 

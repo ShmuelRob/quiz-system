@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
-import { addQuestionService, /*answerQuestionService, AddExamToQuestionService, */ getAllQuestionsService, editQuestionService, getIdService, getQuestionByIdService, deleteQuestionService } from '../services/questions';
-import question from '../models/interfaces/question.interface';
+import {
+    addQuestionService, getAllQuestionsService, editQuestionService,
+    getIdService, getQuestionByIdService, deleteQuestionService
+} from '../services/questions';
 
 
 async function getAllQuestionsController(req: Request, res: Response) {
@@ -11,8 +13,7 @@ async function getAllQuestionsController(req: Request, res: Response) {
 }
 
 async function getQuestionByIdController(req: Request, res: Response) {
-    // const {id} = req.body
-    const id = req.params.id;
+    const { id } = req.params;
     const question = await getQuestionByIdService(id).catch(err => {
         return res.status(400).send("couldn't get question: " + err);
     })
@@ -21,7 +22,6 @@ async function getQuestionByIdController(req: Request, res: Response) {
 
 async function addQuestionsController(req: Request, res: Response) {
     const { question } = req.body;
-    // console.log(question);
     const questionAdded = addQuestionService(question).catch(err => {
         return res.status(400).send("couldn't add this question: " + err);
     });
@@ -30,16 +30,8 @@ async function addQuestionsController(req: Request, res: Response) {
     }
 }
 
-// async function AddExamToQuestionController(req: Request, res: Response) {
-//     const {questionId, examId} = req.body;
-//     await AddExamToQuestionService(questionId, examId).catch(err => {
-//         return res.status(400).send("couldn't add edit question, " + err);
-//     });
-//     return res.sendStatus(200)
-// }
-
 async function editQuestionsController(req: Request, res: Response) {
-    const {id, question} = req.body;
+    const { id, question } = req.body;
     try {
         editQuestionService(id, question);
         return res.sendStatus(201);
@@ -51,7 +43,7 @@ async function editQuestionsController(req: Request, res: Response) {
 async function getIdController(req: Request, res: Response) {
     const { question } = req.body;
     const id = getIdService(question).catch(err => {
-        return res.status(400).send("couldn't get question, " + err);
+        return res.status(400).send("couldn't get question: " + err);
     });
     if (await id) {
         return res.status(200).send(id);
@@ -59,20 +51,16 @@ async function getIdController(req: Request, res: Response) {
 }
 
 async function deleteQuestionController(req: Request, res: Response) {
-    const {id} = req.params;
-    const deleted = await deleteQuestionService(id).catch(err => {
+    const { id } = req.params;
+    try {
+        await deleteQuestionService(id);
+        return res.sendStatus(200);
+    } catch (err) {
         return res.status(400).send("couldn't delete: " + err);
-    });
-        return res.sendStatus(200)
+    }
 }
 
-/*
-async function answerQuestionsController(req: Request, res: Response) {
-    const { question, answer } = req.body;
-    answerQuestionService(question, answer).catch(err => {
-        return res.status(400).send("couldn't answer, " + err)
-    });
-    res.sendStatus(201);
+export {
+    addQuestionsController, deleteQuestionController, getAllQuestionsController,
+    getQuestionByIdController, editQuestionsController, getIdController
 }
-*/
-export { addQuestionsController, deleteQuestionController, getAllQuestionsController, getQuestionByIdController, editQuestionsController, getIdController }

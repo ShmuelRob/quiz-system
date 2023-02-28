@@ -37,14 +37,14 @@ function getExamById(id: mongoose.Types.ObjectId): Promise<exam> {
     });
 }
 
-function addExam(exam: exam): Promise<exam> {
+function addExam(exam: exam): Promise<mongoose.Types.ObjectId> {
     return new Promise(async resolve => {
         const created = await examSchema.create(exam);
         created.questions.forEach(async q => {
             const questionId = new mongoose.Types.ObjectId(q);
             await addExamToQuestion(questionId, created._id);
         })
-        resolve(created.toObject<exam>());
+        resolve(created._id);
     });
 }
 

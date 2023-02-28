@@ -5,9 +5,9 @@ const axiosBase = axios.create({
 });
 
 
-export default async function deleteData(params: string, id: string) {
+export default async function deleteData(params: string) {
     return new Promise(async (resolve, reject) => {
-        const output = await axiosBase.delete(`/${params}/${id}`).catch(err => {
+        const output = await axiosBase.delete(`/${params}`).catch(err => {
             console.log(err)
             reject('error: ' + err);
         })

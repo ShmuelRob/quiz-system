@@ -6,24 +6,31 @@ function getAllStudentExamsService() {
     return getAllStudentExams();
 }
 
-function getStudentExamService(studentExam: studentExam){
+function getStudentExamService(studentExam: studentExam): Promise<studentExam> {
     return getStudentExam(studentExam)
 }
 
-function getStudentExamByIdService(id: mongoose.Types.ObjectId) {
-    return getStudentExamById(id);
+function getStudentExamByIdService(id: string): Promise<studentExam> {
+    return getStudentExamById(new mongoose.Types.ObjectId(id));
 }
 
-function addStudentExamService(studentExam: studentExam) {
+function addStudentExamService(studentExam: studentExam): Promise<mongoose.Types.ObjectId> {
+    let fieldId = new  mongoose.Types.ObjectId();
+    score: createScore(studentExam);
+
     return addStudentExam(studentExam)
 }
 
-function editStudentExamService(id: mongoose.Types.ObjectId, studentExam: studentExam){
-    return editStudentExam(id, studentExam)
+function createScore(exam: studentExam): number {
+    return 0;
 }
 
-function deleteStudentExamService(id: mongoose.Types.ObjectId) {
-    return deleteStudentExam(id);
+function editStudentExamService(id: string, studentExam: studentExam){
+    return editStudentExam(new mongoose.Types.ObjectId(id), studentExam);
+}
+
+function deleteStudentExamService(id: string) {
+    return deleteStudentExam( new mongoose.Types.ObjectId(id));
 }
 
 export { getAllStudentExamsService, getStudentExamService, getStudentExamByIdService,

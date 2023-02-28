@@ -4,11 +4,11 @@ import exam from "../models/exam";
 import ShowQuestion from '../components/ShowQuestion';
 import deleteData from "../utils/deleteData";
 import { Link } from "react-router-dom";
+import './examsPage.module.css'
 
 function ExamsPage() {
     const [exams, setExams] = useState<exam[]>([]);
     const studentUrl = `${import.meta.url.split('/')[2]}/student/`;
-  //   const [questionsSelected, setQuestionsSelected] = useState<string[]>([]); // id's
 
     useEffect(() => {
       getData('exams').then(data => {
@@ -17,7 +17,7 @@ function ExamsPage() {
     }, []);
 
     const deleteExam = (id: string) => {
-      deleteData('exams/delete', id).then(rd => {
+      deleteData(`exams/${id}`).then(rd => {
         if(rd as string === 'OK') {
           getData('exams').then(data => {
             setExams(data as exam[])
@@ -31,14 +31,15 @@ function ExamsPage() {
     <div>Exams list<br/><br/>
     {exams.map((exam, i)=> {
       return <div key={i} >
-        {/* {e._id}<br /> */}
         <b>title:</b> {exam.header}<br />
         <b>questions:</b> {exam.questions.map((q, i) => {
           return <ShowQuestion questionId={q} key={i}/>
         })}
         <b>passing grade:</b> {exam.passingGrade}<br />
-        <textarea value={`${studentUrl}${exam._id}`} readOnly /><br />
+        <code>{studentUrl + exam._id}</code><br />
+        {/* replace this to <code>*/}
         <button onClick={e => navigator.clipboard.writeText(`${studentUrl}${exam._id}`)} >copy link</button>
+        {/* replace this button to ::after with background img*/}
         <Link to={`/exams/editDetails/${exam._id}`} ><button>edit details</button></Link>
         <Link to={`/exams/editQuestions/${exam._id}`} ><button>edit questions</button></Link> <br />
         <button onClick={ev => deleteExam(exam._id)}>delete</button>

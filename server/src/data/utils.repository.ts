@@ -4,6 +4,7 @@ import languageSchema from '../models/schemas/language.schema';
 import language from '../models/interfaces/language.interface';
 import examType from '../models/interfaces/examType.interface';
 import examTypeSchema from '../models/schemas/examType.schema';
+import questionTypeSchema from '../models/schemas/questionType.schema';
 
 dotenv.config()
 
@@ -35,4 +36,16 @@ function getExamTypes(): Promise<examType[]> {
     });
 }
 
-export { getLanguages, getExamTypes }
+function getQuestionType(id: mongoose.Types.ObjectId): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+        const questionType = await questionTypeSchema.findById(id).exec().catch(err => {
+            reject(err);
+        });
+        if (questionType) {
+            resolve(questionType.name);
+        }
+    });
+}
+
+
+export { getLanguages, getExamTypes, getQuestionType }

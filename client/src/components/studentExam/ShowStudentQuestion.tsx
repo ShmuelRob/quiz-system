@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import question from '../models/question';
-import getData from '../utils/getData';
+import question from '../../models/question';
+import getData from '../../utils/getData';
 
 interface showStudentQuestionProps {
     questionId: string,
@@ -9,10 +9,15 @@ interface showStudentQuestionProps {
 
 function ShowStudentQuestion(props: showStudentQuestionProps) {
     const [question, setQuestion] = useState<question>();
+    const [type, setType] = useState<string>();
     let answers: string[] = [];
     useEffect(() => {
-      getData(`questions/id/${props.questionId}`).then(data => {
-        setQuestion(data as question);
+      getData(`questions/${props.questionId}`).then(data => {
+        const ques = data as question;
+        setQuestion(ques);
+        getData(`utils/question-types/${ques.typeId}`).then(data => {
+          setType(data as string);
+        })
       })
     }, [])
 
@@ -35,11 +40,11 @@ function ShowStudentQuestion(props: showStudentQuestionProps) {
 
   return (
     <div>ShowStudentQuestion
-        <h4>{question?.title}</h4>
-        <h2>{question?.description}</h2>
+        <h2>{question?.title}</h2>
+        <h4>{question?.description}</h4>
         {question?.answers.map((q, i) => {
             return <div key={i}>
-            <input type={question.typeId === 'single choice' ? 'radio': 'checkbox'} onChange={e => handleQuestions(e, q)} /> {q}
+            <input type={type === 'single choice' ? 'radio': 'checkbox'} onChange={e => handleQuestions(e, q)} /> {q}
             </div>
         })}
         <button onClick={sendQuestion}>next</button>

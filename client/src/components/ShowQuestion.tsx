@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
-import getDataWithParams from "../utils/getDataWithParams";
 import question from "../models/question";
+import getData from "../utils/getData";
 
 interface showQuestionProps {
   questionId: string;
@@ -10,13 +10,11 @@ interface showQuestionProps {
 function ShowQuestion(props: showQuestionProps) {
   const [question, setQuestion] = useState<question>();
   useEffect(() => {
-    getDataWithParams("questions/id", props.questionId)
+    getData(`questions/${props.questionId}`)
       .then((data) => {
         setQuestion(data as question);
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch(console.error);
   }, []);
   return <div>{question?.title}</div>;
 }

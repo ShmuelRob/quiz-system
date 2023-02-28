@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-// import exam from '../models/interfaces/exam.interface';
 import {
     getAllExamsService, getExamService, getExamByIdService,
     addExamService, editExamService, deleteExamService
@@ -7,16 +6,16 @@ import {
 
 
 async function getAllExamsController(req: Request, res: Response) {
-    const exam = await getAllExamsService().catch(err => {
-        return res.status(400).send("couldn't add get exams, " + err);
+    const exams = await getAllExamsService().catch(err => {
+        return res.status(400).send("couldn't add get exams: " + err);
     });
-    return res.status(200).json(exam);
+    return res.status(200).json(exams);
 }
 
 async function getExamController(req: Request, res: Response) {
     const { exam } = req.body;
     const examOutput = await getExamService(exam).catch(err => {
-        return res.status(400).send("couldn't add get exam, " + err);
+        return res.status(400).send("couldn't get this exams: " + err);
     });
     return res.status(200).json(examOutput);
 }
@@ -24,25 +23,26 @@ async function getExamController(req: Request, res: Response) {
 async function getExamByIdController(req: Request, res: Response) {
     const { id } = req.params;
     const examOutput = await getExamByIdService(id).catch(err => {
-        return res.status(400).send("couldn't add get exam, " + err);
+        return res.status(400).send("couldn't get this exam: " + err);
     });
     return res.status(200).json(examOutput);
 }
 
 async function addExamController(req: Request, res: Response) {
     const { exam } = req.body;
-    const examAdded = addExamService(exam).catch(err => {
-        res.status(400).send("couldn't add this Exam, " + err);
+    const examId = await addExamService(exam).catch(err => {
+        return res.status(400).send("couldn't add this exam: " + err);
     });
-    if (await examAdded) {
-        return res.sendStatus(201);
+    if (examId) {
+        return res.status(201).send(examId);
     }
 }
 
 async function editExamController(req: Request, res: Response) {
-    const { id, exam } = req.body;
+    const { id } = req.params;
+    const { exam } = req.body;
     const edit = editExamService(id, exam).catch(err => {
-        return res.status(400).send("couldn't add edit Exam, " + err);
+        return res.status(400).send("couldn't edit this exam: " + err);
     });
     if (await edit) {
         return res.sendStatus(201);
@@ -55,7 +55,7 @@ async function deleteExamController(req: Request, res: Response) {
         await deleteExamService(id);
         return res.sendStatus(200);
     } catch (err) {
-        return res.status(400).send("couldn't add this Exam, " + err);
+        return res.status(400).send("couldn't delete this Exam: " + err);
     }
 }
 

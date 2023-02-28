@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import student from '../models/student';
+import student from '../../models/student';
 
 interface studentSignInProps {
   setStudent: (stud: student) => void

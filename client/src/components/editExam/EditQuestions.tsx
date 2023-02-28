@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import exam from '../models/exam';
-import getDataWithParams from '../utils/getDataWithParams';
-import getData from '../utils/getData';
-import question from '../models/question';
+import exam from '../../models/exam';
+import getData from '../../utils/getData';
+import question from '../../models/question';
 import axios from 'axios';
+import putData from '../../utils/putData';
 
 function EditQuestions() {
     const {id} = useParams();
@@ -14,7 +14,7 @@ function EditQuestions() {
   const [returnedData, setReturnedData] = useState<string>('');
 
   useEffect(() => {
-    getDataWithParams('exams', id).then(data => {
+    getData(`exams/${id}`).then(data => {
       setExam(data as exam);
     }).catch(console.error);
 
@@ -42,12 +42,13 @@ function EditQuestions() {
 
   const edit = () => {
     const editedExam = {...exam, questions: [...new Set(selectedQuestions)]}
-    axios.put(`${import.meta.env.VITE_SERVER_URL}/exams/edit`, {
+    putData(`exams/${id}`, {
         id:id,
         exam: editedExam,
       })
-      .then((data) => {
-        setReturnedData(data.statusText);
+      .then(data => {
+        console.log(data);
+        setReturnedData(data as string);
       });
   }
 
